@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>2013年 30个实用的 Javascript 库 | 凤歌笑孔丘</title>
+  <meta name="description" content="原文 ： http:&#x2F;&#x2F;www.admin10000.com&#x2F;document&#x2F;4929.html   Blast.js  Blast.js通过字母、单词或是句子来分隔一段文本，这样你就可以把动画和样式注入到文本中。   Intense Images  Intense Images是一个可以让用户全屏查看原像素照片的javascript库，高质量的照片大小一般不只有电脑屏幕这么大，它提供我们滑动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2013年 30个实用的 Javascript 库">
+<meta property="og:url" content="https://zhukejin.com/2013/2013-better-jslibs/index.html">
+<meta property="og:site_name" content="凤歌笑孔丘">
+<meta property="og:description" content="原文 ： http:&#x2F;&#x2F;www.admin10000.com&#x2F;document&#x2F;4929.html   Blast.js  Blast.js通过字母、单词或是句子来分隔一段文本，这样你就可以把动画和样式注入到文本中。   Intense Images  Intense Images是一个可以让用户全屏查看原像素照片的javascript库，高质量的照片大小一般不只有电脑屏幕这么大，它提供我们滑动">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-12-08T01:58:55.000Z">
+<meta property="article:modified_time" content="2023-04-23T06:17:39.635Z">
+<meta property="article:author" content="Primo">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhukejin.com/2013/2013-better-jslibs/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="凤歌笑孔丘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/avatar/avatar.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhukejin" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">凤歌笑孔丘</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Developer &amp; Poet</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> ShangHai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tools">
+          <a href="https://tools.zhukejin.com">
+            
+            <i class="icon icon-jiaju"></i>
+            
+            <span class="menu-title">我的工具</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="http://demo.zhukejin.com">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">前端实验室</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+    <div class="widget">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget-body">
+            <ul class="recent-post-list list-unstyled no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/typescript-infer/"
+                                   class="title">typescript-infer</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-04-27T02:34:08.000Z"
+                                      itemprop="datePublished">2023-04-27</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%89%A7%E8%A1%8Cjs%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D/"
+                                   class="title">浏览器端获取当前执行js的文件名</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-03-03T09:03:54.000Z"
+                                      itemprop="datePublished">2023-03-03</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Python/">Python</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA-GitLab-Merge-Request/"
+                                   class="title">自动创建 GitLab Merge Request</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-02-09T12:03:41.000Z"
+                                      itemprop="datePublished">2023-02-09</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Other/">Other</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/knowledge-map/"
+                                   class="title">2022 知识图谱整理</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-30T07:25:22.000Z"
+                                      itemprop="datePublished">2022-08-30</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/typescript-reflect/"
+                                   class="title">JavaScript 反射元编程</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-12T09:19:24.000Z"
+                                      itemprop="datePublished">2022-08-12</time>
+                            </p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Verses/">Verses</a><span class="category-list-count">17</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ARTS/" style="font-size: 13.75px;">ARTS</a> <a href="/tags/Algorithm/" style="font-size: 13px;">Algorithm</a> <a href="/tags/Angular/" style="font-size: 13.25px;">Angular</a> <a href="/tags/Design/" style="font-size: 13px;">Design</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/HighCharts/" style="font-size: 13px;">HighCharts</a> <a href="/tags/LESS/" style="font-size: 13px;">LESS</a> <a href="/tags/NPM/" style="font-size: 13.25px;">NPM</a> <a href="/tags/React/" style="font-size: 13px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SASS/" style="font-size: 13px;">SASS</a> <a href="/tags/Tool/" style="font-size: 14px;">Tool</a> <a href="/tags/Typescript/" style="font-size: 13.5px;">Typescript</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/tnt/" style="font-size: 13px;">tnt</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">十月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      
+    </nav>
+  </div>
+</aside>
+
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-2013-better-jslibs" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      2013年 30个实用的 Javascript 库
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2013/2013-better-jslibs/" class="article-date">
+	  <time datetime="2013-12-08T01:58:55.000Z" itemprop="datePublished">2013-12-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2013/2013-better-jslibs/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>原文 ： <a href="http://www.admin10000.com/document/4929.html">http://www.admin10000.com/document/4929.html</a></p>
+</blockquote>
+<ul>
+<li><p><a href="http://velocityjs.org/blast/">Blast.js</a></p>
+<ul>
+<li>Blast.js通过字母、单词或是句子来分隔一段文本，这样你就可以把动画和样式注入到文本中。</li>
+</ul>
+</li>
+<li><p><a href="http://tholman.com/intense-images/">Intense Images</a></p>
+<ul>
+<li>Intense Images是一个可以让用户全屏查看原像素照片的javascript库，高质量的照片大小一般不只有电脑屏幕这么大，它提供我们滑动查看，效果非常完美。</li>
+</ul>
+</li>
+<li><p><a href="http://hammerjs.github.io/">Hammer.js</a></p>
+<ul>
+<li>Hammer.js可以为你的网站添加触摸手势，是一个多点触摸手势库，能够为网页加入Tap、Double Tap、Swipe、Hold、Pinch、Drag等多点触摸事件，免去自己监听底层touchstart、touchmove、touchend事件并且写一大堆判断逻辑的痛苦。</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/fastly/epoch/">epoch</a></p>
+<ul>
+<li>Epoch是一个生成实时图表的javascript库，它专注于可视化编程的两个方面：为历史数据创建图表和实时的数据图表可视化显示。</li>
+</ul>
+</li>
+<li><p><a href="http://boba.space150.com/">Boba.js</a></p>
+<ul>
+<li>Boba.js是一个易扩展的javascript库，它可以让添加谷歌统计变得简单，它不仅支持经典的ga.js库，而且支持新生的analytics.js，而且它有一个很酷的功能——trackLinks，trackLinks可以跟踪所有的子页面。</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+
+<ul>
+<li><p><a href="http://danieltao.com/lazy.js/">Lazy.js</a></p>
+<ul>
+<li>Lazy.js和Underscore和Lo-Dash的功能很像，但是有一个重要的区别：它是延迟执行的，它可以在大多数情景下展示出很好的性能，尤其是在解决大型数组的时候。</li>
+</ul>
+</li>
+<li><p><a href="https://mgechev.github.io/jscapture/">jscapture</a></p>
+<ul>
+<li>JSCapture是用纯JavaScript和HTML5写的屏蔽录制库。它允许你通过你的浏览器对桌面进行截图或录制，它使用getUserMedia来进行屏蔽捕捉，目前它只支持Chrome浏览器。</li>
+</ul>
+</li>
+<li><p><a href="http://code.kik.com/app/2/index.html">App.js</a></p>
+<ul>
+<li>App.js是一个轻量级的JavaScript UI库，因为它有一个好名字，现在它已经算是一个明星库了，它可以为你的网站生成一个用户体验很好的手机应用，完全不会影响到性能。而且它是跨平台的，支持Android 2.2以上版本和IOS 4.3以上版本。</li>
+</ul>
+</li>
+<li><p><a href="http://github.hubspot.com/shepherd/docs/welcome/">Shepherd</a></p>
+<ul>
+<li>Shepherd是一个为应用创建用户指南的javascript库。它用到了另外一个开源的库——Tether。Tether可以确保用户指南不会受到浏览器布局的影响。目前Shepherd支持IE9以上和其它所有的现代浏览器。</li>
+</ul>
+</li>
+<li><p><a href="http://mark-rolich.github.io/RulersGuides.js/">RulersGuide.js</a></p>
+<ul>
+<li>RulersGuides.js是一个类似PhotoShop标尺的javascript库。</li>
+</ul>
+</li>
+<li><p><a href="http://seenjs.io/">seen.js</a></p>
+<ul>
+<li>Seen.js渲染3D场景为SVG或者HTML Canvas。Seen.js包含对于SVG和HTML5 Canvas元素的图形功能的简单抽象。所以这个库的其它组件都是不用关心要渲染类型的。</li>
+</ul>
+</li>
+<li><p><a href="http://ichord.github.io/At.js/">At.Js</a></p>
+<ul>
+<li>At.js 是一个自动完成库，用来实现自动完成的提示，如表情等，就像你在 Github 或 Twitter 上看到的一样。它支持 HTML5 contentEditable 元素。你可以监听任何字符，而不仅仅是 ‘@’ 符号，可为不同的字符设置多个监听器以实现不同的行为和数据。</li>
+</ul>
+</li>
+<li><p><a href="http://bouncejs.com/">IBounce.js</a></p>
+<ul>
+<li>bounce.js 是一个用于制作漂亮的 CSS3 关键帧动画的 JavaScript 库，使用其特有的方式生成的动画效果。只需添加一个组件，选择预设，然后你就可以得到一个短网址或者导出为 CSS 代码。</li>
+</ul>
+</li>
+<li><p><a href="http://visjs.org/">Vis.js</a></p>
+<ul>
+<li>Vis.js 是一个动态的，基于浏览器的可视化库。该库被设计为易于使用，能处理大量的动态数据。该库由以下几部分组成：一是数据集和数据视图，基于灵活的键&#x2F;值数据集，可以添加，更新和删除项目，订阅数据集变化；二是时间轴，用于显示不同类型的时间轴数据，在时间轴上项目可以交互移动，缩放和操纵；三是图形，使用节点和边显示一个交互式图形或网络。</li>
+</ul>
+</li>
+<li><p><a href="http://bigspaceship.github.io/shine.js/">shine.js</a></p>
+<ul>
+<li>Shine.js 是一个用于实现漂亮阴影的 JavaScript 库。您可以设置动态光的位置，可定制的阴影。不依赖于第三方库，兼容 AMD。能在支持 textShadow 或 boxShadow 的浏览器中正常使用，如果有需要会自动添加前缀。</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/marmelab/gremlins.js">gremlins.js</a></p>
+<ul>
+<li>Gremlins.js 是基于 JavaScript 编写的 Monkey 测试库，支持 Node.js 平台和浏览器中使用。Gremlins.js 随机模拟用户操作：单击窗口中的任意位置，在表格中输入随机数据，或者将鼠标移动到特别的元素。Gremlins.j 的目的是触发 JavaScript 错误或使应用程序失败。如果它不能让你应用程序崩溃，那么说明你的应用程序已经足够强大了，可以发布给真正的用户使用。</li>
+</ul>
+</li>
+<li><p><a href="http://forio.com/contour/">contour.js</a></p>
+<ul>
+<li>Contour是Forio的可视化库提供的一个核心的通用库。建立于受欢迎的D3引擎之上，它可以让你很容易的建立一个可视化的数据图形。</li>
+</ul>
+</li>
+<li><p><a href="http://stickerjs.cmiscm.com/">stickerjs</a></p>
+<ul>
+<li>Sticker.js 是一个很小的 JavaScript 库，它允许您在网页中创建漂亮的贴纸效果。没有依赖关系（不需要 jQuery），可以在大多数支持 CSS3 的主流浏览器工作。</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/fulmicoton/fattable">fattable.js</a></p>
+<ul>
+<li>Fattable是一个帮助创建无限滚动，及其无限行列数的Javascript类库。比较大的表（多余10000个单元格）使用DOM处理不是很方便。你的滚动会变得不均匀。同时比较大的表格增长的速度也更快。不太可能让用户去下载或者保留全部数据。Fattable可以帮助你很好的处理异步数据加载</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/piqnt/cutjs/">cutjs</a></p>
+<ul>
+<li>　CutJS是一个帮助你开发高性能，动态互动2DHTML5图形的超迷类库。支持现代浏览器和移动设备，可以帮助你开发游戏和可视化的应用。CutJS提供了DOM类型的API来创建和播放基于画布的图形。</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/uberVU/grid">grid.js</a></p>
+<ul>
+<li>GridList是一个二维的可拖拉的响应式列表库。</li>
+</ul>
+</li>
+<li><p><a href="http://eliperelman.com/fn.js/">fn.js</a></p>
+<ul>
+<li>fn.js是一个鼓励你使用函数编程风格的可选Javascript类库。主要帮助你基于性能和规则来支持函数化实践。为了保证你的路径正确。fn.js内部强制避免side effects，Object Mutation和Function state。支持Node.js或者浏览器，可以使用常规的script来引用或者通过AMD加载器，例如，RequireJS。即将支持Bower。fn.js基于MIT LIcensed，你可以在Github下载</li>
+</ul>
+</li>
+<li><p><a href="http://usablica.github.io/progress.js/">progress.js</a></p>
+<ul>
+<li>Progress.js是一个帮助开发人员使用JS和CSS3创建进度条的javascript类库。你可以自己设计进度条的模板或者自定义。你可以使用progess.js来展示加载内容的进度（images，Video等等），可以应用到所有页面元素，比如，textbox，textarea甚至整个body</li>
+</ul>
+</li>
+<li><p><a href="http://bouncejs.com/">IBounce.js</a></p>
+<ul>
+<li>bounce.js 是一个用于制作漂亮的 CSS3 关键帧动画的 JavaScript 库，使用其特有的方式生成的动画效果。只需添加一个组件，选择预设，然后你就可以得到一个短网址或者导出为 CSS 代码。</li>
+</ul>
+</li>
+<li><p><a href="http://instantclick.io/">instantclick.js</a></p>
+<ul>
+<li>用来帮助你实现网站提速的Javascript类库，能够帮助导航更加高效。它预加载你的用户可能会点击的一些链接。可以配置来在特定操作下加载，例如，mousedown</li>
+</ul>
+</li>
+<li><p><a href="hhttp://mynameismatthieu.com/WOW/">WOW.js</a></p>
+<ul>
+<li>帮助你在滚动过程中展示CSS动画效果。缺省你可以用它来触发animate.css动画。当然，你可以配置来触发其他你喜欢使用的动画类库</li>
+</ul>
+</li>
+<li><p><a href="http://typerendering.com/">Type Rendering Mix</a></p>
+<ul>
+<li>Type Rendering Mix是个基于浏览器、应用CSS文本渲染的引擎。Type Rendering Mix通过解析用户代理字符串检测浏览器的文本rasterizer和antialiasing方法。</li>
+</ul>
+</li>
+<li><p><a href="http://scrollrevealjs.org/">scrollrevealjs</a></p>
+<ul>
+<li>ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力。只需要给元素增加 data-scrollreveal 属性，当元素进入可视区域的时候会自动被触发设置好的动画</li>
+</ul>
+</li>
+<li><p><a href="http://abpetkov.github.io/switchery/">switchery.js</a></p>
+<ul>
+<li>　Switchery是个简单的JavaScript组件，只要几个简单的步骤就可以帮助用户把默认的HTML复选框转换成漂亮iOS 7样式风格。用户可以很方便的自定义这种转换，所以可以很好的配合你的设计风格。</li>
+</ul>
+</li>
+<li><p><a href="http://toddmotto.com/echo-js-simple-javascript-image-lazy-loading/">echo.js</a></p>
+<ul>
+<li>Echo.js 是一个独立的延迟加载图片的 JavaScript 插件。Echo.js 不依赖第三方库，压缩后不到1KB大小。 延迟加载是提高网页首屏显示速度的一种很有效的方法，当图片元素进入窗口可视区域的时候，它就会改变图像的 src 属性，从服务端加载所需的图片，这也是一个异步的过程。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhukejin.com/2013/2013-better-jslibs/" title="2013年 30个实用的 Javascript 库" target="_blank" rel="external">https://zhukejin.com/2013/2013-better-jslibs/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2014/%E7%94%B2%E5%8D%88%E5%B9%B4%E5%B7%B1%E5%B7%B3%E6%9C%88%E6%9C%AB%E4%BD%9C/" title="甲午年己巳月末作"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2013/%E5%87%A4%E5%87%B0%E6%B8%B8/" title="凤凰游"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/alipay.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/wechat.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+<!--         <div class="publishby"> -->
+<!--         	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>. -->
+<!--         </div> -->
+    </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.0/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+
+   
+    
+<!--   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: true,
+    appId: 'mCn1YzBrnhl7YkA4cMqwQtdv-gzGzoHsz',
+    appKey: 'aqeLjChv5TIn6aiFwotIOT3q',
+    placeholder: '请留下您宝贵的建议',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>

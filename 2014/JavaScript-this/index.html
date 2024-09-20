@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>七种情况下 This 的指向问题 | 凤歌笑孔丘</title>
+  <meta name="description" content="为方便读者追本朔源，转载请注明本文地址来源，谢谢。 本文地址： http:&#x2F;&#x2F;zhukejin.com&#x2F;2014&#x2F;09&#x2F;24&#x2F;JavaScript-this&#x2F;    this 是一个动态指针，它指向当前作用域对象，如果当前定义对象的作用域没有发生变化，那么this就会指向当前对象。This可以存在于任何位置，并不局限与对象、方法内，也可以是其他特殊的上下文环境。 本文实验了下述七种情况：  在函">
+<meta property="og:type" content="article">
+<meta property="og:title" content="七种情况下 This 的指向问题">
+<meta property="og:url" content="https://zhukejin.com/2014/JavaScript-this/index.html">
+<meta property="og:site_name" content="凤歌笑孔丘">
+<meta property="og:description" content="为方便读者追本朔源，转载请注明本文地址来源，谢谢。 本文地址： http:&#x2F;&#x2F;zhukejin.com&#x2F;2014&#x2F;09&#x2F;24&#x2F;JavaScript-this&#x2F;    this 是一个动态指针，它指向当前作用域对象，如果当前定义对象的作用域没有发生变化，那么this就会指向当前对象。This可以存在于任何位置，并不局限与对象、方法内，也可以是其他特殊的上下文环境。 本文实验了下述七种情况：  在函">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-09-24T07:04:17.000Z">
+<meta property="article:modified_time" content="2023-04-23T06:17:39.636Z">
+<meta property="article:author" content="Primo">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhukejin.com/2014/JavaScript-this/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="凤歌笑孔丘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/avatar/avatar.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhukejin" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">凤歌笑孔丘</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Developer &amp; Poet</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> ShangHai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tools">
+          <a href="https://tools.zhukejin.com">
+            
+            <i class="icon icon-jiaju"></i>
+            
+            <span class="menu-title">我的工具</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="http://demo.zhukejin.com">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">前端实验室</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+    <div class="widget">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget-body">
+            <ul class="recent-post-list list-unstyled no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/typescript-infer/"
+                                   class="title">typescript-infer</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-04-27T02:34:08.000Z"
+                                      itemprop="datePublished">2023-04-27</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%89%A7%E8%A1%8Cjs%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D/"
+                                   class="title">浏览器端获取当前执行js的文件名</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-03-03T09:03:54.000Z"
+                                      itemprop="datePublished">2023-03-03</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Python/">Python</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA-GitLab-Merge-Request/"
+                                   class="title">自动创建 GitLab Merge Request</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-02-09T12:03:41.000Z"
+                                      itemprop="datePublished">2023-02-09</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Other/">Other</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/knowledge-map/"
+                                   class="title">2022 知识图谱整理</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-30T07:25:22.000Z"
+                                      itemprop="datePublished">2022-08-30</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/typescript-reflect/"
+                                   class="title">JavaScript 反射元编程</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-12T09:19:24.000Z"
+                                      itemprop="datePublished">2022-08-12</time>
+                            </p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Verses/">Verses</a><span class="category-list-count">17</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ARTS/" style="font-size: 13.75px;">ARTS</a> <a href="/tags/Algorithm/" style="font-size: 13px;">Algorithm</a> <a href="/tags/Angular/" style="font-size: 13.25px;">Angular</a> <a href="/tags/Design/" style="font-size: 13px;">Design</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/HighCharts/" style="font-size: 13px;">HighCharts</a> <a href="/tags/LESS/" style="font-size: 13px;">LESS</a> <a href="/tags/NPM/" style="font-size: 13.25px;">NPM</a> <a href="/tags/React/" style="font-size: 13px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SASS/" style="font-size: 13px;">SASS</a> <a href="/tags/Tool/" style="font-size: 14px;">Tool</a> <a href="/tags/Typescript/" style="font-size: 13.5px;">Typescript</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/tnt/" style="font-size: 13px;">tnt</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">十月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84This%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">在函数中的This：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E6%9E%84%E9%80%A0%E5%99%A8%E4%B8%AD%E7%9A%84This%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">在构造器中的This：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%BC%95%E7%94%A8%E5%92%8C%E8%B0%83%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">函数的引用和调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#call-%E5%92%8C-apply-%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">call 和 apply ：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E7%BB%A7%E6%89%BF%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">原型继承：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E8%B0%83%E7%94%A8%EF%BC%9A"><span class="toc-number">1.5.</span> <span class="toc-text">异步调用：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-number">1.6.</span> <span class="toc-text">定时器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eval-%E4%B8%AD%E7%9A%84-this%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">eval () 中的 this：</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JavaScript-this" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      七种情况下 This 的指向问题
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2014/JavaScript-this/" class="article-date">
+	  <time datetime="2014-09-24T07:04:17.000Z" itemprop="datePublished">2014-09-24</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2014/JavaScript-this/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>为方便读者追本朔源，转载请注明本文地址来源，谢谢。</p>
+<p>本文地址： <a href="http://zhukejin.com/2014/09/24/JavaScript-this/">http://zhukejin.com/2014/09/24/JavaScript-this/</a>  </p>
+</blockquote>
+<p>this 是一个动态指针，它指向当前作用域对象，如果当前定义对象的作用域没有发生变化，那么this就会指向当前对象。<br>This可以存在于任何位置，并不局限与对象、方法内，也可以是其他特殊的上下文环境。</p>
+<p>本文实验了下述七种情况：</p>
+<ol>
+<li><strong>在函数中的 This</strong></li>
+<li><strong>在构造器中的This</strong></li>
+<li><strong>函数的引用和调用中this的变数</strong></li>
+<li><strong>call 和 apply 对 this的影响</strong></li>
+<li><strong>原型继承中的 This</strong></li>
+<li><strong>异步调用的 This</strong></li>
+<li><strong>定时器中的 This</strong></li>
+<li><strong>被Evel() 方法解析的 This</strong></li>
+</ol>
+<span id="more"></span>
+
+<h3 id="在函数中的This："><a href="#在函数中的This：" class="headerlink" title="在函数中的This："></a>在函数中的This：</h3><p>在实函数中分属两种情况，一种是 Sloppy 模式， 一种是 Strict模式。 <a href="http://blog.csdn.net/airingyuan/article/details/25036297">什么是Strict模式?</a></p>
+<p><em>Sloppy 模式下:</em></p>
+<pre><code>(function test() &#123;
+    console.log(this) // window
+&#125;)()
+</code></pre>
+<p><em>Strict 模式下：</em></p>
+<pre><code>(function test() &#123;
+    &#39;use strict&#39;;
+    console.log(this) // undefined
+&#125;)()
+</code></pre>
+<h4 id="在构造器中的This："><a href="#在构造器中的This：" class="headerlink" title="在构造器中的This："></a>在构造器中的This：</h4><pre><code>var getThis;
+var a = function() &#123;
+    getThis = this;
+&#125;
+var b = new a();
+console.log(getThis); // a&#123;&#125;
+console.log(getThis === b); // true
+</code></pre>
+<p>此处通过 new来新建一个对象，并将这个对象通过 this 传入构造器中。</p>
+<p>附：Javascript New 的操作原理（<a href="http://speakingjs.com/es5/ch17.html#_the_new_operator_implemented_in_javascript">这里是出处</a>）：</p>
+<pre><code>function newOperator(Constr, args) &#123;
+    var thisValue = Object.create(Constr.prototype); // (1)
+    var result = Constr.apply(thisValue, args);
+    if (typeof result === &#39;object&#39; &amp;&amp; result !== null) &#123;
+        return result; // (2)
+    &#125;
+    return thisValue;
+&#125;
+</code></pre>
+<h4 id="函数的引用和调用"><a href="#函数的引用和调用" class="headerlink" title="函数的引用和调用"></a>函数的引用和调用</h4><p>函数的引用和调用分属两种不同的概念，虽然两者都无法改变函数的定义作用域，但是引用函数可以改变函数的执行作用域，而调用函数是不会改变函数的执行作用域的,如下：</p>
+<pre><code>var o = &#123;
+    name: &quot;这是一个对象&quot;,
+    f   : function () &#123;
+        return this;
+    &#125;
+&#125;
+
+o.ol = &#123;
+    name: &quot;这又是一个对象&quot;,
+    me  : o.f //引用上个对象的方法
+&#125;
+
+var who = o.ol.me(); // ol&#123;&#125;
+</code></pre>
+<p>此处this指向的是当前执行域对象 ol， 如果把对象 ol 的 me 属性值改为函数调用：</p>
+<pre><code>o.ol = &#123;
+    name : &quot;这又是一个对象&quot;,
+    me   : o.f() // o
+&#125;
+</code></pre>
+<p>此处this 所代表的是定义函数时所在的作用域对象。</p>
+<h4 id="call-和-apply-："><a href="#call-和-apply-：" class="headerlink" title="call 和 apply ："></a>call 和 apply ：</h4><p>call 和 apply 方法能够强制的改变函数的执行作用域，使其作用域指向所传递的参数对象，所以函数中所包含的this关键字也会指向参数对象</p>
+<pre><code>function f() &#123;
+    alert(this.x + this.y);
+&#125;
+
+var o = &#123;
+    x : 1,
+    y : 2
+&#125;
+
+f.call(o);
+</code></pre>
+<p>这里其实就通过 call 将函数中的 this指向变为传入的参数对象 o，所以函数中的this.x 也就是 o.x</p>
+<h4 id="原型继承："><a href="#原型继承：" class="headerlink" title="原型继承："></a>原型继承：</h4><pre><code>function base() &#123;
+    this.m = function () &#123;
+        return &quot;base&quot;;
+    &#125;;
+    this.a = this.m(); //基类的属性a 调用m方法
+    this.b = this.m; //基类的属性b 引用m方法
+    this.c = function ()&#123; //基类的方法c() ， 以闭包结构调用当前作用域中的m方法
+        return this.m();
+    &#125;
+&#125;
+function f () &#123;
+    this.m = function () &#123;
+        return &quot;f&quot;;
+    &#125;
+&#125;
+
+f.prototype = new base();
+var ff = new f();
+console.log(ff.a);   // base， 说明this.m() 中this指向 f 的原型对象
+console.log(ff.b()); // base
+console.log(ff.c()); // f ， 说明this.m() 中this指向作用域对象
+</code></pre>
+<p>c为一个闭包体，在子类的实例中调用它时，他的返回值实际上已经成为实例对象的成员，闭包在哪里调用，其中包含的this就会指向哪里。</p>
+<h4 id="异步调用："><a href="#异步调用：" class="headerlink" title="异步调用："></a>异步调用：</h4><pre><code>var button = document.getElementById(&#39;button&#39;);
+var o = &#123;&#125;;
+    o.f = function ()&#123;
+        if(this == o) console.log(&quot;this == o&quot;);
+        if(this == window) console.log(&quot;this == window&quot;);
+        if(this == button) console.log(&quot;this == button&quot;);
+    &#125;
+
+button.onclick = o.f;
+</code></pre>
+<p>这里的f() 中的this就不再指向o, 而是指向 button dom 对象。因为是被传递给按钮的事件处理函数之后再被调用的，函数的执行作用域发生了变化。</p>
+<pre><code>//通过事件绑定进行
+if (window.attachEvent)
+    button.attachEvent(&quot;onclick&quot;, o.f);
+else
+    button.addEventListener(&quot;click&quot;, o.f, false)
+</code></pre>
+<p>实验结果是在符合 DOM标准的浏览器中，this 是指向button，但是在 ie 中，this是同时指向 window 和 button，因为attach是 ie的window方法，调用此方法的时候，执行作用域为全局，随后又被注册到按钮对象上，所以this会指向两个目标。</p>
+<p>IE上这种情况很可能导致事件绑定的句柄丢失，为了防止这种情况，可以通过call 来强制指定 this 指向：</p>
+<pre><code>button.attachEvent(&quot;onclick&quot;,function() &#123;
+        o.f.call(button); //this 指向button
+    &#125;);
+</code></pre>
+<p>当然可以强制指向 o </p>
+<h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><p>异步调用的另一种形式就是使用定时器来调用函数，通过调用 window对象 的 setTimeout() 或者 setInterval() 方法来延期调用函数，例如：</p>
+<pre><code>var o = &#123;&#125;;
+o.f = function () &#123;
+    if (this == o) console.log(&quot;this == o&quot;);
+    if (this == window) console.log(&quot;this == window&quot;);
+    if (this == button) console.log(&quot;this == button&quot;);
+&#125;
+
+setTimeout(o.f, 1000);
+</code></pre>
+<p>程序在IE浏览器下的运行结果同上，this 同时指向 window和 button对象，原理和attachEvent() 一样。</p>
+<p>在符合Dom 标准的浏览器中，this指向的是window对象，因为setTimeout() 方法是在全局作用域中被执行的，所以 this 指向window 对象。</p>
+<h3 id="eval-中的-this："><a href="#eval-中的-this：" class="headerlink" title="eval () 中的 this："></a>eval () 中的 this：</h3><p>直接使用eval(), this 指向当前范围</p>
+<pre><code>var x = &#39;global&#39;;
+function directEval() &#123;
+    &#39;use strict&#39;;
+    var x = &#39;local&#39;;
+    console.log(eval(&#39;x&#39;)); // local
+&#125;
+</code></pre>
+<p>通过call () 间接地调用eval(), this 指向全局范围</p>
+<pre><code>var x = &#39;global&#39;;
+function indirectEval() &#123;
+    &#39;use strict&#39;;
+    var x = &#39;local&#39;;
+    console.log(eval.call(null, &#39;x&#39;)); // global
+    console.log(window.eval(&#39;x&#39;)); // global
+    console.log((1, eval)(&#39;x&#39;)); // global (1)
+
+    var xeval = eval;
+    console.log(xeval(&#39;x&#39;)); // global
+
+    var obj = &#123; eval: eval &#125;;
+    console.log(obj.eval(&#39;x&#39;)); // global
+&#125;
+</code></pre>
+<p>如有不对，请指正。</p>
+<p>Email ： <a href="mailto:&#122;&#104;&#x75;&#107;&#101;&#106;&#105;&#x6e;&#x40;&#x6d;&#115;&#110;&#46;&#x63;&#111;&#x6d;">&#122;&#104;&#x75;&#107;&#101;&#106;&#105;&#x6e;&#x40;&#x6d;&#115;&#110;&#46;&#x63;&#111;&#x6d;</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhukejin.com/2014/JavaScript-this/" title="七种情况下 This 的指向问题" target="_blank" rel="external">https://zhukejin.com/2014/JavaScript-this/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2014/%E5%85%B3%E4%BA%8EHighchart-error-19/" title="关于Highchart error #19"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2014/JavaScript-event/" title="Javascript 事件冒泡和捕获的一些探讨"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/alipay.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/wechat.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+<!--         <div class="publishby"> -->
+<!--         	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>. -->
+<!--         </div> -->
+    </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.0/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+
+   
+    
+<!--   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: true,
+    appId: 'mCn1YzBrnhl7YkA4cMqwQtdv-gzGzoHsz',
+    appKey: 'aqeLjChv5TIn6aiFwotIOT3q',
+    placeholder: '请留下您宝贵的建议',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>

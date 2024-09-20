@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Angular2 动态的创建组件并插入到Shadow Dom中 | 凤歌笑孔丘</title>
+  <meta name="description" content="作者随时修改，为方便读者追本朔源，转载请保留地址。  前言：  为什么会有这个需求？   因为在开发组件中，难免会有一些组件是需要动态生成的，以减少Document中Dom 数量，节省内存开支。  例如全局的 message 组件、Alert 组件、Notice 组件等。  angular2 中如何动态的编译Template？   在 Ng2 中， 废除了 $compiled 这个方法，用户将不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular2 动态的创建组件并插入到Shadow Dom中">
+<meta property="og:url" content="https://zhukejin.com/2016/Angular2DynamicLoadComponent/index.html">
+<meta property="og:site_name" content="凤歌笑孔丘">
+<meta property="og:description" content="作者随时修改，为方便读者追本朔源，转载请保留地址。  前言：  为什么会有这个需求？   因为在开发组件中，难免会有一些组件是需要动态生成的，以减少Document中Dom 数量，节省内存开支。  例如全局的 message 组件、Alert 组件、Notice 组件等。  angular2 中如何动态的编译Template？   在 Ng2 中， 废除了 $compiled 这个方法，用户将不">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-10-26T03:09:06.000Z">
+<meta property="article:modified_time" content="2023-04-23T06:17:39.636Z">
+<meta property="article:author" content="Primo">
+<meta property="article:tag" content="Angular">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhukejin.com/2016/Angular2DynamicLoadComponent/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="凤歌笑孔丘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/avatar/avatar.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhukejin" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">凤歌笑孔丘</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Developer &amp; Poet</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> ShangHai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tools">
+          <a href="https://tools.zhukejin.com">
+            
+            <i class="icon icon-jiaju"></i>
+            
+            <span class="menu-title">我的工具</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="http://demo.zhukejin.com">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">前端实验室</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+    <div class="widget">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget-body">
+            <ul class="recent-post-list list-unstyled no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/typescript-infer/"
+                                   class="title">typescript-infer</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-04-27T02:34:08.000Z"
+                                      itemprop="datePublished">2023-04-27</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%89%A7%E8%A1%8Cjs%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D/"
+                                   class="title">浏览器端获取当前执行js的文件名</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-03-03T09:03:54.000Z"
+                                      itemprop="datePublished">2023-03-03</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Python/">Python</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA-GitLab-Merge-Request/"
+                                   class="title">自动创建 GitLab Merge Request</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-02-09T12:03:41.000Z"
+                                      itemprop="datePublished">2023-02-09</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Other/">Other</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/knowledge-map/"
+                                   class="title">2022 知识图谱整理</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-30T07:25:22.000Z"
+                                      itemprop="datePublished">2022-08-30</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/typescript-reflect/"
+                                   class="title">JavaScript 反射元编程</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-12T09:19:24.000Z"
+                                      itemprop="datePublished">2022-08-12</time>
+                            </p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Verses/">Verses</a><span class="category-list-count">17</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ARTS/" style="font-size: 13.75px;">ARTS</a> <a href="/tags/Algorithm/" style="font-size: 13px;">Algorithm</a> <a href="/tags/Angular/" style="font-size: 13.25px;">Angular</a> <a href="/tags/Design/" style="font-size: 13px;">Design</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/HighCharts/" style="font-size: 13px;">HighCharts</a> <a href="/tags/LESS/" style="font-size: 13px;">LESS</a> <a href="/tags/NPM/" style="font-size: 13.25px;">NPM</a> <a href="/tags/React/" style="font-size: 13px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SASS/" style="font-size: 13px;">SASS</a> <a href="/tags/Tool/" style="font-size: 14px;">Tool</a> <a href="/tags/Typescript/" style="font-size: 13.5px;">Typescript</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/tnt/" style="font-size: 13px;">tnt</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">十月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%84"><span class="toc-number">1.</span> <span class="toc-text">附</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Angular2DynamicLoadComponent" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular2 动态的创建组件并插入到Shadow Dom中
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2016/Angular2DynamicLoadComponent/" class="article-date">
+	  <time datetime="2016-10-26T03:09:06.000Z" itemprop="datePublished">2016-10-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Angular/" rel="tag">Angular</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2016/Angular2DynamicLoadComponent/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>作者随时修改，为方便读者追本朔源，转载请保留地址。</p>
+</blockquote>
+<p><strong>前言：</strong></p>
+<ul>
+<li><p>为什么会有这个需求？</p>
+<p>  因为在开发组件中，难免会有一些组件是需要动态生成的，以减少Document中Dom 数量，节省内存开支。<br>  例如全局的 message 组件、Alert 组件、Notice 组件等。</p>
+</li>
+<li><p>angular2 中如何动态的编译Template？</p>
+<p>  在 Ng2 中， 废除了 $compiled 这个方法，用户将不能直接编译模板，如果想动态的创建组件，必须借助	组件工厂 (componentFactoryResolver)</p>
+</li>
+</ul>
+<p><strong>如何动态创建一个组件：</strong></p>
+<span id="more"></span>
+
+<p>这里以 Tooltip 组件为例</p>
+<ol>
+<li>首先需要准备一个组件内容(用来插入到页面中的动态组件)<br> 这个组件就是很常规的组件， 没有什么特别的东西,只需要准备一些变量同步Template即可。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Component</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"></span><br><span class="line">@<span class="title class_">Component</span>(&#123;</span><br><span class="line">   	<span class="attr">selector</span>: <span class="string">&#x27;pxx-tooltip-container&#x27;</span>,</span><br><span class="line">    <span class="attr">templateUrl</span>: <span class="string">&#x27;./tooltip.html&#x27;</span>,</span><br><span class="line">   	<span class="attr">styleUrls</span>: [<span class="string">&#x27;./tooltip.scss&#x27;</span>],</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">TooltipContainer</span> &#123;</span><br><span class="line">    <span class="attr">_top</span>: any;</span><br><span class="line">   	<span class="attr">_left</span>: any;</span><br><span class="line">    _state = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">   	<span class="attr">message</span>: string;</span><br><span class="line">    <span class="attr">placement</span>: <span class="string">&#x27;top&#x27;</span> | <span class="string">&#x27;bottom&#x27;</span> | <span class="string">&#x27;left&#x27;</span> | <span class="string">&#x27;right&#x27;</span> = <span class="string">&#x27;top&#x27;</span>;</span><br><span class="line"></span><br><span class="line">   	<span class="attr">_show</span>: boolean = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>将这个内容组件添加到Module 中，这一步主要是将这个组件存入 Angular 的工厂缓存中。<br> App.module （或者是其他的Module，甚至是这个组件自身的Module 都可以，只要最终在AppModule 	中 import）, 我这里是组件自身的Module，最终导入到App.Module中。</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TooltipModule</span></span><br><span class="line"><span class="title class_">NgModule</span>(&#123;</span><br><span class="line">    <span class="attr">imports</span>: [</span><br><span class="line">        <span class="title class_">TooltipModule</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">declarations</span>: [</span><br><span class="line">        <span class="title class_">TooltipContainer</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">exports</span>: [</span><br><span class="line">        <span class="title class_">TooltipContainer</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">entryComponents</span>: [</span><br><span class="line">        <span class="title class_">TooltipContainer</span> <span class="comment">// 这里很重要，将这个组件放入Angular 工厂缓存中</span></span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">SharedModule</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="title function_">share</span>(): <span class="title class_">ModuleWithProviders</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">ngModule</span>: <span class="title class_">SharedModule</span>,</span><br><span class="line">            <span class="attr">providers</span>: []</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>建立一个中转组件、或者 service 来操作生成的组件， 这里我创建了一个 Tooltip.component.ts 的组件来做中转，也是用户真实使用的组件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">    <span class="title class_">Component</span>, <span class="title class_">Input</span>, <span class="title class_">HostListener</span>, <span class="title class_">ComponentRef</span>, <span class="title class_">ComponentFactoryResolver</span>, <span class="title class_">ApplicationRef</span>, <span class="title class_">ViewContainerRef</span>,</span><br><span class="line">    <span class="title class_">ReflectiveInjector</span></span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">TooltipContainer</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./tooltip.container&#x27;</span>;</span><br><span class="line"></span><br><span class="line">@<span class="title class_">Component</span>(&#123;</span><br><span class="line">    <span class="attr">selector</span>: <span class="string">&#x27;pxx-tooltip&#x27;</span>,</span><br><span class="line">    <span class="attr">template</span>: <span class="string">&#x27;&lt;ng-content&gt;&lt;/ng-content&gt;&#x27;</span>,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">TooltipComponent</span> &#123;</span><br><span class="line">    <span class="attr">container</span>: <span class="title class_">ComponentRef</span>&lt;any&gt;;</span><br><span class="line"></span><br><span class="line">    @<span class="title class_">Input</span>() <span class="attr">message</span>: string;</span><br><span class="line">    @<span class="title class_">Input</span>() <span class="attr">placement</span>: <span class="string">&#x27;top&#x27;</span> | <span class="string">&#x27;bottom&#x27;</span> = <span class="string">&#x27;top&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    private <span class="attr">_top</span>: any;</span><br><span class="line">    private <span class="attr">_left</span>: any;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">private componentFactoryResolver: ComponentFactoryResolver,</span></span><br><span class="line"><span class="params">                private appRef: ApplicationRef</span>) &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 给中转组件绑定鼠标移入事件</span></span><br><span class="line">    @<span class="title class_">HostListener</span>(<span class="string">&#x27;mouseenter&#x27;</span>, [<span class="string">&#x27;$event.target&#x27;</span>])</span><br><span class="line">    <span class="title function_">enter</span>(<span class="params">el</span>) &#123;</span><br><span class="line">    </span><br><span class="line">        <span class="comment">// 当CreateTips 执行完毕后计算位置</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">_createTips</span>().<span class="title function_">then</span>( <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="title function_">_getOffset</span>(el);</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//添加一个进入动画， 200ms 后移除</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">_createTimeout</span>(<span class="string">&#x27;enter&#x27;</span>, <span class="number">200</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 通滚 instance 控制动态组件的属性，显示组件。</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">container</span>.<span class="property">instance</span>.<span class="property">_show</span> = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @<span class="title class_">HostListener</span>(<span class="string">&#x27;mouseleave&#x27;</span>, [<span class="string">&#x27;$event.target&#x27;</span>])</span><br><span class="line">    <span class="title function_">leave</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 留 80 ms 给动画效果, 然后摧毁组件</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">_createTimeout</span>(<span class="string">&#x27;leave&#x27;</span>, <span class="number">80</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">container</span>.<span class="title function_">destroy</span>();</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">container</span> = <span class="literal">null</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private _createTips&lt;T&gt;(): <span class="title class_">Promise</span>&lt;T&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">container</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">appRef</span>[<span class="string">&#x27;_rootComponents&#x27;</span>].<span class="property">length</span>) &#123;</span><br><span class="line">                    <span class="keyword">const</span> err = <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;AppRoot 未找到.&#x27;</span>);</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">                    <span class="title function_">reject</span>(err);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 查找Body 的位置</span></span><br><span class="line">                <span class="keyword">let</span> <span class="attr">appContainer</span>: <span class="title class_">ViewContainerRef</span> = <span class="variable language_">this</span>.<span class="property">appRef</span>[<span class="string">&#x27;_rootComponents&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;_hostElement&#x27;</span>].<span class="property">vcRef</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">let</span> providers = <span class="title class_">ReflectiveInjector</span>.<span class="title function_">resolve</span>([</span><br><span class="line">                    <span class="comment">// 此处创建提供商, 但是这个组件不需要 provider</span></span><br><span class="line">                ]);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 创建并加载ToolTipContainer 组件，这里从Factory 中讲组件提取出来，创建组件。</span></span><br><span class="line">                <span class="keyword">let</span> tooltipFactory = <span class="variable language_">this</span>.<span class="property">componentFactoryResolver</span>.<span class="title function_">resolveComponentFactory</span>(<span class="title class_">TooltipContainer</span>);</span><br><span class="line">                <span class="keyword">let</span> childInjector = <span class="title class_">ReflectiveInjector</span>.<span class="title function_">fromResolvedProviders</span>(providers, appContainer.<span class="property">parentInjector</span>);</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">container</span> = appContainer.<span class="title function_">createComponent</span>(tooltipFactory, appContainer.<span class="property">length</span>, childInjector);</span><br><span class="line"></span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">container</span>.<span class="property">instance</span>.<span class="property">placement</span> = <span class="variable language_">this</span>.<span class="property">placement</span>;</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">container</span>.<span class="property">instance</span>.<span class="property">message</span> = <span class="variable language_">this</span>.<span class="property">message</span>;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// resolve 加入异步队列， 模拟一个 nextTick 的操作，当Angular 执行完下一个时间循环后调用。</span></span><br><span class="line">                <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="title function_">resolve</span>(), <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// resolve();</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">        * 这里是计算 tooltipContaine 的显示坐标的</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">    private <span class="title function_">_getOffset</span>(<span class="params">el</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> tooltip = &lt;<span class="title class_">HTMLElement</span>&gt;<span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#tooltip&#x27;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">placement</span> == <span class="string">&#x27;top&#x27;</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">_left</span> = (el.<span class="title function_">getBoundingClientRect</span>().<span class="property">left</span> + (el.<span class="property">offsetWidth</span> - tooltip.<span class="property">offsetWidth</span>) / <span class="number">2</span>) + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">_top</span> = el.<span class="title function_">getBoundingClientRect</span>().<span class="property">top</span> - el.<span class="property">offsetHeight</span> - tooltip.<span class="property">offsetHeight</span> + (el.<span class="property">offsetHeight</span> / 						<span class="number">1.28</span>) + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">placement</span> == <span class="string">&#x27;bottom&#x27;</span>) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">_left</span> = (el.<span class="title function_">getBoundingClientRect</span>().<span class="property">left</span> + (el.<span class="property">offsetWidth</span> - tooltip.<span class="property">offsetWidth</span>) / <span class="number">2</span>) + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">_top</span> = el.<span class="title function_">getBoundingClientRect</span>().<span class="property">top</span> + el.<span class="property">offsetHeight</span> + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// instance</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">container</span>.<span class="property">instance</span>.<span class="property">_left</span> = <span class="variable language_">this</span>.<span class="property">_left</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">container</span>.<span class="property">instance</span>.<span class="property">_top</span> = <span class="variable language_">this</span>.<span class="property">_top</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private <span class="title function_">_createTimeout</span>(<span class="params">state, delay, cb?: <span class="built_in">Function</span></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">container</span>.<span class="property">instance</span>.<span class="property">_state</span> = state;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            cb &amp;&amp; <span class="title function_">cb</span>();</span><br><span class="line">        &#125;, delay);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>将 TooltipComponent 这个中转组件也添加进APPModule</li>
+<li>使用：</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;pxx-tooltip message=<span class="string">&quot;这是一个优雅的提示&quot;</span>&gt;<span class="title class_">Hover</span> &lt;/pxx-tooltip&gt;</span><br></pre></td></tr></table></figure>
+
+<p>** 关于方法二 **</p>
+<p>这篇文章被我命名为 <em>方法一</em>， 所以还会有方法二。<br>相对于上文这种方法， 方法二功能更强大，然而更死板。<br>方法二的使用的核心API是 <code>compileModuleAndAllComponentsAsync</code> <code>RuntimeCompiler</code>.<br>方法二相对于方法一：</p>
+<ul>
+<li>好处就是不用每次把需要动态加载的组件放到 entryComponent 中缓存。但是需要动态的创建 ComponentFactory，完全的构造一个新的Module，这个Module 自然就包含了动态创建的组件。</li>
+<li>坏处就是创建的Module 完全独立，无论作用域、Module通信等。也就意味着创建出来的Module无法使用外部Module 已经 import 过的模块、指令、服务、组件等，这真让人感到悲伤。。</li>
+</ul>
+<p>那么方法二有什么用呢？ </p>
+<p>个人觉得应用场景是用与解决动态的切换组件.</p>
+<h3 id="附"><a href="#附" class="headerlink" title="附"></a>附</h3><p><em>编辑于 2017-11</em></p>
+<p>经过 Angular2 -&gt; Angular4 -&gt; Angular5 的频繁变更，上述所用 <code>this.appRef[&#39;_rootComponents&#39;][0][&#39;_hostElement&#39;].vcRef</code> 这些非官方 public API 已经失效。</p>
+<p>现方法为：<code>this.appRef.components[0].instance.viewContainerRef;</code>.</p>
+<p>目测为 stable ，毕竟没有下划线了。</p>
+<p>另外：</p>
+<p>在官方文档中发现了一个新的方法： <code>ReflectiveInjector.resolveAndCreate</code>, 所以或许有更好的解法。本文权作参考即可。</p>
+<p>参见 <a href="https://angular.io/api/core/ReflectiveInjector">https://angular.io/api/core/ReflectiveInjector</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhukejin.com/2016/Angular2DynamicLoadComponent/" title="Angular2 动态的创建组件并插入到Shadow Dom中" target="_blank" rel="external">https://zhukejin.com/2016/Angular2DynamicLoadComponent/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2016/%E4%B8%99%E7%94%B3%E6%9D%82%E8%AF%97-%E5%A4%9C%E5%B1%85%E5%A4%A7%E6%98%8E%E5%B1%B1/" title="丙申杂诗-夜居大明山"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2016/webpack-React-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="webpack&amp;React 性能优化"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/alipay.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/wechat.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+<!--         <div class="publishby"> -->
+<!--         	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>. -->
+<!--         </div> -->
+    </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.0/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+
+   
+    
+<!--   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: true,
+    appId: 'mCn1YzBrnhl7YkA4cMqwQtdv-gzGzoHsz',
+    appKey: 'aqeLjChv5TIn6aiFwotIOT3q',
+    placeholder: '请留下您宝贵的建议',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>CSS3 rgba() 兼容IE | 凤歌笑孔丘</title>
+  <meta name="description" content="本文系作者整合互联网资料加个人理解所写，或随时更改， 若需转载请保留此行，以便后来者追本朔源本文地址：http:&#x2F;&#x2F;zhukejin.com&#x2F;2017&#x2F;12&#x2F;01&#x2F;creat-100-array&#x2F;  不登高山， 不知山之高也。之前无过多接触CSS， 固步自封之下也不觉得CSS多么强大， 后来逐渐了解了点CSS3，觉得CSS已有发展为一门独立语言的潜力。 临渊羡鱼，不如退而结网， 总是羡慕别人的网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS3 rgba() 兼容IE">
+<meta property="og:url" content="https://zhukejin.com/2015/css3-rgba-ie/index.html">
+<meta property="og:site_name" content="凤歌笑孔丘">
+<meta property="og:description" content="本文系作者整合互联网资料加个人理解所写，或随时更改， 若需转载请保留此行，以便后来者追本朔源本文地址：http:&#x2F;&#x2F;zhukejin.com&#x2F;2017&#x2F;12&#x2F;01&#x2F;creat-100-array&#x2F;  不登高山， 不知山之高也。之前无过多接触CSS， 固步自封之下也不觉得CSS多么强大， 后来逐渐了解了点CSS3，觉得CSS已有发展为一门独立语言的潜力。 临渊羡鱼，不如退而结网， 总是羡慕别人的网">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-04-13T06:25:14.000Z">
+<meta property="article:modified_time" content="2023-04-23T06:17:39.645Z">
+<meta property="article:author" content="Primo">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhukejin.com/2015/css3-rgba-ie/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="凤歌笑孔丘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/avatar/avatar.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhukejin" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">凤歌笑孔丘</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Developer &amp; Poet</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> ShangHai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tools">
+          <a href="https://tools.zhukejin.com">
+            
+            <i class="icon icon-jiaju"></i>
+            
+            <span class="menu-title">我的工具</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="http://demo.zhukejin.com">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">前端实验室</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+    <div class="widget">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget-body">
+            <ul class="recent-post-list list-unstyled no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/typescript-infer/"
+                                   class="title">typescript-infer</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-04-27T02:34:08.000Z"
+                                      itemprop="datePublished">2023-04-27</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%89%A7%E8%A1%8Cjs%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D/"
+                                   class="title">浏览器端获取当前执行js的文件名</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-03-03T09:03:54.000Z"
+                                      itemprop="datePublished">2023-03-03</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Python/">Python</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA-GitLab-Merge-Request/"
+                                   class="title">自动创建 GitLab Merge Request</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-02-09T12:03:41.000Z"
+                                      itemprop="datePublished">2023-02-09</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Other/">Other</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/knowledge-map/"
+                                   class="title">2022 知识图谱整理</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-30T07:25:22.000Z"
+                                      itemprop="datePublished">2022-08-30</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/typescript-reflect/"
+                                   class="title">JavaScript 反射元编程</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-12T09:19:24.000Z"
+                                      itemprop="datePublished">2022-08-12</time>
+                            </p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Verses/">Verses</a><span class="category-list-count">17</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ARTS/" style="font-size: 13.75px;">ARTS</a> <a href="/tags/Algorithm/" style="font-size: 13px;">Algorithm</a> <a href="/tags/Angular/" style="font-size: 13.25px;">Angular</a> <a href="/tags/Design/" style="font-size: 13px;">Design</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/HighCharts/" style="font-size: 13px;">HighCharts</a> <a href="/tags/LESS/" style="font-size: 13px;">LESS</a> <a href="/tags/NPM/" style="font-size: 13.25px;">NPM</a> <a href="/tags/React/" style="font-size: 13px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SASS/" style="font-size: 13px;">SASS</a> <a href="/tags/Tool/" style="font-size: 14px;">Tool</a> <a href="/tags/Typescript/" style="font-size: 13.5px;">Typescript</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/tnt/" style="font-size: 13px;">tnt</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">十月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-progid-DXImageTransform-Microsoft-gradient-%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">关于 progid:DXImageTransform.Microsoft.gradient 的属性：####</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">特性：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#IE4-0%E4%BB%A5%E4%B8%8A%E6%94%AF%E6%8C%81%E7%9A%84%E6%BB%A4%E9%95%9C%E5%B1%9E%E6%80%A7%E8%A1%A8-%E6%BB%A4%E9%95%9C%E6%95%88%E6%9E%9C-%E6%8F%8F%E8%BF%B0-%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">IE4.0以上支持的滤镜属性表 滤镜效果 描述 ：#####</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-css3-rgba-ie" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CSS3 rgba() 兼容IE
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2015/css3-rgba-ie/" class="article-date">
+	  <time datetime="2015-04-13T06:25:14.000Z" itemprop="datePublished">2015-04-13</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  </span>
+
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2015/css3-rgba-ie/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文系作者整合互联网资料加个人理解所写，或随时更改， 若需转载请保留此行，以便后来者追本朔源<br>本文地址：<a href="http://zhukejin.com/2017/12/01/creat-100-array/">http://zhukejin.com/2017/12/01/creat-100-array/</a></p>
+</blockquote>
+<p>不登高山， 不知山之高也。之前无过多接触CSS， 固步自封之下也不觉得CSS多么强大， 后来逐渐了解了点CSS3，觉得CSS已有发展为一门独立语言的潜力。</p>
+<p>临渊羡鱼，不如退而结网， 总是羡慕别人的网站特效多好， 还是自己来研究CSS3吧。</p>
+<p>CSS3效果好归好， 但是总是能碰到一些恶心的兼容问题，比如当下的 rgba …</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrap</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.8</span>);</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
+<p>在 chrome ， firefox ， IE10 下开开心心的跑了起来， 但是在 ie8上是不会出现背景的，为什么？<br>rgba 做为css3 属性，例行不支持IE，如果想要解决这个问题， 需要调用 IE的 “滤镜”， filter属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrap</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.8</span>);</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">filter</span>:progid:DXImageTransform.Microsoft.<span class="built_in">gradient</span>(startColorstr=<span class="number">#BF000000</span>,endColorstr=<span class="number">#BF000000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="关于-progid-DXImageTransform-Microsoft-gradient-的属性："><a href="#关于-progid-DXImageTransform-Microsoft-gradient-的属性：" class="headerlink" title="关于 progid:DXImageTransform.Microsoft.gradient 的属性：####"></a>关于 progid:DXImageTransform.Microsoft.gradient 的属性：####</h4><ol>
+<li><p>enabled: 可选项。布尔值(Boolean)。设置或检索滤镜是否激活。 true | false</p>
+<ol>
+<li>true: 默认值。滤镜激活。</li>
+<li>false:滤镜被禁止。</li>
+</ol>
+</li>
+<li><p>startColorStr:可选项。字符串(String)。设置或检索色彩渐变的开始颜色和透明度。</p>
+<ol>
+<li>其格式为 #AARRGGBB 。 AA 、 RR 、 GG 、 BB 为十六进制正整数。取值范围为 00 - FF 。 RR 指定红色值， GG 指定绿色值， BB 指定蓝色值，参阅 #RRGGBB 颜色单位。 AA 指定透明度。 00 是完全透明。 FF 是完全不透明。超出取值范围的值将被恢复为默认值。<br>　　取值范围为 #FF000000 - #FFFFFFFF 。默认值为 #FF0000FF 。不透明蓝色。</li>
+</ol>
+</li>
+<li><p>EndColorStr:可选项。字符串(String)。设置或检索色彩渐变的结束颜色和透明度。参阅 startColorStr 属性。默认值为 #FF000000 。不透明黑色。</p>
+</li>
+</ol>
+<h4 id="特性："><a href="#特性：" class="headerlink" title="特性："></a>特性：</h4><ol>
+<li>Enabled:可读写。布尔值(Boolean)。参阅 enabled 属性。</li>
+<li>GradientType:可读写。整数值(Integer)。设置或检索色彩渐变的方向。1 | 0<ol>
+<li>1 &#x3D; 默认值。水平渐变。</li>
+<li>0 &#x3D; 垂直渐变。</li>
+</ol>
+</li>
+<li>StartColorStr:可读写。字符串(String)。参阅 startColorStr 属性。<ol>
+<li>StartColor:可读写。整数值(Integer)。设置或检索色彩渐变的开始颜色。 取值范围为 0 - 4294967295 。<ol>
+<li>0 为透明。</li>
+<li>4294967295 为不透明白色。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>EndColorStr:可读写。字符串(String)。设置或检索色彩渐变的结束颜色和透明度。参阅 startColorStr 属性。默认值为 #FF000000 。不透明黑色。</li>
+<li>EndColor:可读写。整数值(Integer)。设置或检索色彩渐变的结束颜色。 取值范围为 0 - 4294967295 。 0 为透明。 4294967295 为不透明白色。当在脚本中使用此特性时，也可以用十六进制格式： 0xAARRGGBB 。</li>
+</ol>
+<h5 id="IE4-0以上支持的滤镜属性表-滤镜效果-描述-："><a href="#IE4-0以上支持的滤镜属性表-滤镜效果-描述-：" class="headerlink" title="IE4.0以上支持的滤镜属性表 滤镜效果 描述 ：#####"></a>IE4.0以上支持的滤镜属性表 滤镜效果 描述 ：#####</h5><ul>
+<li>Alpha 设置透明度</li>
+<li>Blru 建立模糊效果</li>
+<li>Chroma 把指定的颜色设置为透明</li>
+<li>DropShadow 建立一种偏移的影象轮廓，即投射阴影</li>
+<li>FlipH 水平反转</li>
+<li>FlipV 垂直反转</li>
+<li>Glow 为对象的外边界增加光效</li>
+<li>Grayscale 降低图片的彩色度</li>
+<li>Invert 将色彩、饱和度以及亮度值完全反转建立底片效果</li>
+<li>Light 在一个对象上进行灯光投影</li>
+<li>Mask 为一个对象建立透明膜</li>
+<li>Shadow 建立一个对象的固体轮廓，即阴影效果</li>
+<li>Wave 在X轴和Y轴方向利用正弦波纹打乱图片</li>
+<li>Xray 只显示对象的轮廓</li>
+</ul>
+<p>filter作为微软独有的一个属性， 不得不说，IE其实还是很强大的， 只不过走了非同寻常的道路， 没有被 w3c 规范起来而已..(<em>看起来跟党走，才是王道</em>)</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhukejin.com/2015/css3-rgba-ie/" title="CSS3 rgba() 兼容IE" target="_blank" rel="external">https://zhukejin.com/2015/css3-rgba-ie/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2016/%E7%94%B2%E5%8D%88%E6%9D%82%E8%AF%97-%E5%85%B6%E4%BA%8C/" title="甲午杂诗-其二"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2014/%E5%85%B3%E4%BA%8EHighchart-error-19/" title="关于Highchart error #19"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/alipay.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/wechat.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+<!--         <div class="publishby"> -->
+<!--         	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>. -->
+<!--         </div> -->
+    </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.0/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+
+   
+    
+<!--   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: true,
+    appId: 'mCn1YzBrnhl7YkA4cMqwQtdv-gzGzoHsz',
+    appKey: 'aqeLjChv5TIn6aiFwotIOT3q',
+    placeholder: '请留下您宝贵的建议',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>

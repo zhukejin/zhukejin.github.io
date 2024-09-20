@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Less 的一些高级用法 | 凤歌笑孔丘</title>
+  <meta name="description" content="最近发现很多同学在使用 Less 的时候， 仅是为了使用 Less 的 变量、嵌套 以及 module 功能。 虽然 Less 相对于 Sass 来说，移除了很多功能，比如 @if @else @while @for @function等，但是并非是Less 不行，Less 的宗旨是 “Do Less Get More”。 我们可以在简洁的API 支撑下，做到更多的事情。 曾经我是个 Scss">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Less 的一些高级用法">
+<meta property="og:url" content="https://zhukejin.com/2022/advanced-less/index.html">
+<meta property="og:site_name" content="凤歌笑孔丘">
+<meta property="og:description" content="最近发现很多同学在使用 Less 的时候， 仅是为了使用 Less 的 变量、嵌套 以及 module 功能。 虽然 Less 相对于 Sass 来说，移除了很多功能，比如 @if @else @while @for @function等，但是并非是Less 不行，Less 的宗旨是 “Do Less Get More”。 我们可以在简洁的API 支撑下，做到更多的事情。 曾经我是个 Scss">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-05T07:18:31.000Z">
+<meta property="article:modified_time" content="2023-04-23T06:17:39.636Z">
+<meta property="article:author" content="Primo">
+<meta property="article:tag" content="LESS">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhukejin.com/2022/advanced-less/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="凤歌笑孔丘" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/avatar/avatar.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhukejin" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">凤歌笑孔丘</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Developer &amp; Poet</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> ShangHai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tools">
+          <a href="https://tools.zhukejin.com">
+            
+            <i class="icon icon-jiaju"></i>
+            
+            <span class="menu-title">我的工具</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="http://demo.zhukejin.com">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">前端实验室</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+    <div class="widget">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget-body">
+            <ul class="recent-post-list list-unstyled no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/typescript-infer/"
+                                   class="title">typescript-infer</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-04-27T02:34:08.000Z"
+                                      itemprop="datePublished">2023-04-27</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%89%A7%E8%A1%8Cjs%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D/"
+                                   class="title">浏览器端获取当前执行js的文件名</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-03-03T09:03:54.000Z"
+                                      itemprop="datePublished">2023-03-03</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Python/">Python</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2023/%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA-GitLab-Merge-Request/"
+                                   class="title">自动创建 GitLab Merge Request</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2023-02-09T12:03:41.000Z"
+                                      itemprop="datePublished">2023-02-09</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/Other/">Other</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/knowledge-map/"
+                                   class="title">2022 知识图谱整理</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-30T07:25:22.000Z"
+                                      itemprop="datePublished">2022-08-30</time>
+                            </p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <!--               <p class="item-category"> -->
+                            <!--                 <a class="category-link" href="/categories/JavaScript/">JavaScript</a> -->
+                            <!--               </p> -->
+                            <p class="item-title">
+                                <a href="/2022/typescript-reflect/"
+                                   class="title">JavaScript 反射元编程</a>
+                            </p>
+                            <p class="item-date">
+                                <time datetime="2022-08-12T09:19:24.000Z"
+                                      itemprop="datePublished">2022-08-12</time>
+                            </p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CSS/">CSS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">28</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Other/">Other</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Verses/">Verses</a><span class="category-list-count">17</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ARTS/" style="font-size: 13.75px;">ARTS</a> <a href="/tags/Algorithm/" style="font-size: 13px;">Algorithm</a> <a href="/tags/Angular/" style="font-size: 13.25px;">Angular</a> <a href="/tags/Design/" style="font-size: 13px;">Design</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/HighCharts/" style="font-size: 13px;">HighCharts</a> <a href="/tags/LESS/" style="font-size: 13px;">LESS</a> <a href="/tags/NPM/" style="font-size: 13.25px;">NPM</a> <a href="/tags/React/" style="font-size: 13px;">React</a> <a href="/tags/RxJS/" style="font-size: 13px;">RxJS</a> <a href="/tags/SASS/" style="font-size: 13px;">SASS</a> <a href="/tags/Tool/" style="font-size: 14px;">Tool</a> <a href="/tags/Typescript/" style="font-size: 13.5px;">Typescript</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a> <a href="/tags/hexo/" style="font-size: 13px;">hexo</a> <a href="/tags/tnt/" style="font-size: 13px;">tnt</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">十月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">九月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA"><span class="toc-number">1.</span> <span class="toc-text">导入导出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E9%BB%98%E5%AF%BC%E5%85%A5"><span class="toc-number">1.1.</span> <span class="toc-text">静默导入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#refrence"><span class="toc-number">1.2.</span> <span class="toc-text">refrence</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#inline"><span class="toc-number">1.3.</span> <span class="toc-text">inline</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%8F%98%E9%87%8F"><span class="toc-number">2.1.</span> <span class="toc-text">属性变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E6%8B%BC%E6%8E%A5"><span class="toc-number">2.2.</span> <span class="toc-text">变量拼接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E5%8F%98%E9%87%8F"><span class="toc-number">2.3.</span> <span class="toc-text">路径变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%BC%95%E7%94%A8"><span class="toc-number">2.4.</span> <span class="toc-text">变量引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87"><span class="toc-number">2.5.</span> <span class="toc-text">变量提升</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E5%85%A5"><span class="toc-number">3.</span> <span class="toc-text">混入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">基础用法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%B7%B7%E5%85%A5"><span class="toc-number">3.2.</span> <span class="toc-text">函数混入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0%E6%B7%B7%E5%85%A5"><span class="toc-number">3.3.</span> <span class="toc-text">高级函数混入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="toc-number">3.4.</span> <span class="toc-text">高级函数重载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B7%E5%85%A5%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">3.5.</span> <span class="toc-text">混入作用域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.6.</span> <span class="toc-text">函数返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mixin-%E6%9D%A1%E4%BB%B6"><span class="toc-number">3.7.</span> <span class="toc-text">Mixin 条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mixin-%E5%90%88%E5%B9%B6-v1-7-0-%E6%94%AF%E6%8C%81"><span class="toc-number">3.8.</span> <span class="toc-text">Mixin 合并(v1.7.0 支持)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-number">4.</span> <span class="toc-text">循环</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E5%BE%AA%E7%8E%AF"><span class="toc-number">4.1.</span> <span class="toc-text">递归循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%E5%BE%AA%E7%8E%AF"><span class="toc-number">4.2.</span> <span class="toc-text">列表循环</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2%E5%87%BD%E6%95%B0"><span class="toc-number">5.1.</span> <span class="toc-text">颜色函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%87%BD%E6%95%B0"><span class="toc-number">5.2.</span> <span class="toc-text">类型函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0"><span class="toc-number">5.3.</span> <span class="toc-text">数学函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0"><span class="toc-number">5.4.</span> <span class="toc-text">工具函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JavaScript-in-Less"><span class="toc-number">6.</span> <span class="toc-text">JavaScript in Less</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E7%BC%96%E8%AF%91%E6%94%AF%E6%8C%81"><span class="toc-number">6.1.</span> <span class="toc-text">开启编译支持</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JavaScript-%E7%BC%96%E5%86%99"><span class="toc-number">6.2.</span> <span class="toc-text">JavaScript 编写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Less-%E4%B8%AD%E8%B0%83%E7%94%A8-JavaScript-%E6%96%B9%E6%B3%95"><span class="toc-number">6.3.</span> <span class="toc-text">Less 中调用 JavaScript 方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E5%9C%BA%E6%99%AF"><span class="toc-number">7.</span> <span class="toc-text">业务场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E6%B1%82"><span class="toc-number">7.1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="toc-number">7.2.</span> <span class="toc-text">实现：</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-advanced-less" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Less 的一些高级用法
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2022/advanced-less/" class="article-date">
+	  <time datetime="2022-08-05T07:18:31.000Z" itemprop="datePublished">2022-08-05</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/LESS/" rel="tag">LESS</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/advanced-less/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>最近发现很多同学在使用 Less 的时候， 仅是为了使用 Less 的 变量、嵌套 以及 module 功能。</p>
+<p>虽然 Less 相对于 Sass 来说，移除了很多功能，比如 @if @else @while @for @function等，但是并非是Less 不行，Less 的宗旨是 “Do Less Get More”。</p>
+<p>我们可以在简洁的API 支撑下，做到更多的事情。</p>
+<p>曾经我是个 Scss 党，现在已经全面转 Less 了。</p>
+</blockquote>
+<span id="more"></span>
+
+<h3 id="导入导出"><a href="#导入导出" class="headerlink" title="导入导出"></a>导入导出</h3><p>提到导入导出，大家可能都在想，一个 @import 就搞定的事情，这也拿来讲？</p>
+<p>在Less 初期，确实都是 @import 导入文件一把梭，但是这同样也会带来代码冗余的问题，比如生成重复代码等。</p>
+<p>Less v1.4 版本后，编译器新增了 import 参数的支持，如</p>
+<h4 id="静默导入"><a href="#静默导入" class="headerlink" title="静默导入"></a>静默导入</h4><p>在导入的文件前，添加下划线前缀即可静默引入，即不生成实体代码，仅作为变量使用。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// color filename：color.less</span></span><br><span class="line"><span class="keyword">@import</span> <span class="string">&#x27;_color&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="refrence"><a href="#refrence" class="headerlink" title="refrence"></a>refrence</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span> (refrence) <span class="string">&#x27;color&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>refrence 可以配合 extend&#x2F;mixins 关键字使用，如</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// color.less</span></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// gap.less</span></span><br><span class="line"><span class="keyword">@import</span> (refrence) <span class="string">&#x27;color&#x27;</span>;</span><br><span class="line"><span class="selector-class">.a</span>:<span class="selector-tag">extend</span>(.a all)</span><br></pre></td></tr></table></figure>
+
+<p>这样就只继承 color.less 的 .a ，同时在编译后的文件中，不会生成 .b 的 less 代码。</p>
+<h4 id="inline"><a href="#inline" class="headerlink" title="inline"></a>inline</h4><p>如果某些css 不想被编译，且还需要引入的话，可以使用这个参数</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span> (inline) <span class="string">&#x27;color.css&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样在编译项目的时候， color.css 不会经由 Less 编译器编译，这个设计的目的是防止某些编译器不支持的高级css 属性导致编译报错。</p>
+<p>其他的参数还有：</p>
+<ul>
+<li>once(默认)</li>
+<li>multiple</li>
+<li>less</li>
+<li>css</li>
+</ul>
+<p>有兴趣的可以自行查阅文档。</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>普通的变量定义和引用，每种语言都一样，大家神会即可，说点 Less 不一样的。</p>
+<h4 id="属性变量"><a href="#属性变量" class="headerlink" title="属性变量"></a>属性变量</h4><p>将变量作为 key 来使用，使用 @{} 来插值</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@color:</span> red;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.@&#123;color&#125;</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="variable">@color</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.red</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="变量拼接"><a href="#变量拼接" class="headerlink" title="变量拼接"></a>变量拼接</h4><p>变量作为 value 使用的时候，需要用~和引号来进行插值计算，如果不加 ~ ，则会生成字符串类型的值。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span> (<span class="variable">@p</span>, <span class="variable">@u</span>) &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="string">~&quot;@&#123;p&#125;px&quot;</span>;</span><br><span class="line">  <span class="attribute">background</span>: url(<span class="string">&quot;@&#123;u&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>(<span class="number">10</span>, <span class="string">&#x27;https://xxx.com/a.jpg&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">background</span>: url(<span class="string">&quot;https://xxx.com/a.jpg&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="路径变量"><a href="#路径变量" class="headerlink" title="路径变量"></a>路径变量</h4><p>在导入文件时，同样可以使用变量，来达到按需导入的效果。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 两个主题文件</span></span><br><span class="line"><span class="comment">// theme/dark.less</span></span><br><span class="line"><span class="variable">@color:</span> red;</span><br><span class="line"></span><br><span class="line"><span class="comment">// theme/light.less</span></span><br><span class="line"><span class="variable">@color:</span> blue;</span><br><span class="line"></span><br><span class="line"><span class="comment">// file</span></span><br><span class="line"><span class="variable">@theme:</span> <span class="string">&quot;dark&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@import</span> <span class="string">&quot;theme/@&#123;theme&#125;.less&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="variable">@color</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="变量引用"><a href="#变量引用" class="headerlink" title="变量引用"></a>变量引用</h4><p>同属性变量，既然变量可以作为 style 的属性，那也能作为变量的引用来用，从而就可以实现 PHP 中 <code>$$$$a</code> 这样的套娃用法</p>
+<p>看我套娃~</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@a:</span> <span class="string">&#x27;i am origin a&#x27;</span>;</span><br><span class="line"><span class="variable">@b:</span> <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="variable">@@b</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&#x27;i am origin a&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h4><p>同 JavaScript，Less 中的变量， 也是会提升的</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="variable">@a</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">@a:</span> red;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="混入"><a href="#混入" class="headerlink" title="混入"></a>混入</h3><h4 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h4><p>混入 (Mixins) 可以说是 Sass 和 Less 中一个比较常见的功能，在 Less 中基础用法比较简单:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>less: 人家都说我清纯不做作， 不像外面那个 sass。</em></p>
+<blockquote>
+<p>Sass 中将这个功能细分为 @mixin 、@include、@extend、@content，有兴趣的可以去研究一下。</p>
+<p>毕竟大多数项目是不需要优化到如此地步的，即便需要优化， 也可以通过嵌套规则来优化。</p>
+</blockquote>
+<h4 id="函数混入"><a href="#函数混入" class="headerlink" title="函数混入"></a>函数混入</h4><p>Mixins 可以作为函数使用，从而实现类似 @functions 的功能</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span>(<span class="variable">@color</span>: red) &#123;</span><br><span class="line">	<span class="attribute">color</span>: <span class="variable">@color</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line"> <span class="selector-class">.a</span>(blue); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#0000ff</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果作为函数使用，则自身不会被编译到css 文件中。</p>
+<h4 id="高级函数混入"><a href="#高级函数混入" class="headerlink" title="高级函数混入"></a>高级函数混入</h4><p>Less 实现了一些高级语言才有的函数特性，如 JavaScript 中的 arguments、解构参数； Python 中的 **kwargs；</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span> (...) &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="variable">@arguments</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a1</span> (<span class="variable">@px</span>: <span class="number">1px</span>, <span class="variable">@reset</span>...) &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="variable">@px</span> <span class="variable">@reset</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>(<span class="number">1px</span>, solid, red);</span><br><span class="line">  <span class="selector-class">.a1</span>(<span class="number">2px</span>, solid, red);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ff0000</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#ff0000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>@arguments 可接收到所有的参数集</li>
+<li>@rest 可接收到  … 定义的参数集</li>
+</ul>
+<h4 id="高级函数重载"><a href="#高级函数重载" class="headerlink" title="高级函数重载"></a>高级函数重载</h4><p>这里其实和强类型语言中的重载不太一样，不过为了方便理解，可以认为就是模拟重载。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span> (<span class="variable">@p1</span>, <span class="variable">@p2</span>) &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> (<span class="variable">@p1</span>) &#123;</span><br><span class="line">   <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>(p1);</span><br><span class="line">  <span class="selector-class">.a</span>(p1, p2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: blue;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到如同函数重载一般，当签名不同的时候，返回不同的结果。</p>
+<h4 id="混入作用域"><a href="#混入作用域" class="headerlink" title="混入作用域"></a>混入作用域</h4><p>默认的 Mixins 是可以继承调用方上下文的，即可以使用 &amp; 来继承父级，针对比较复杂的场景，Less 提供了 #(命名空间) 加上 &gt; 来控制作用域。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#first</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>() &#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="selector-id">#sec</span> &#123;</span><br><span class="line">	<span class="selector-class">.a</span>() &#123;</span><br><span class="line">    <span class="attribute">color</span>: green;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">   <span class="selector-id">#first</span> &gt; <span class="selector-class">.a</span>;</span><br><span class="line">   <span class="selector-id">#sec</span> &gt; <span class="selector-class">.a</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的例子可以看到， 我们可以通过命名空间 + &gt; 来控制使用哪个同名混入。</p>
+<p><em>关于 # 命名空间，后面有讲。</em></p>
+<h4 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h4><p>Less 并没有 Sass 中的 @return 关键字，但是因为作用域的共享，可以通过变量来实现 @return 的用法。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span>() &#123;</span><br><span class="line">    <span class="variable">@color:</span> red;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>();</span><br><span class="line">  <span class="attribute">color</span>: <span class="variable">@color</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#ff0000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，@color 变量在经过 .b 的调用后，已经可以在 .b 作用域内使用。</p>
+<h4 id="Mixin-条件"><a href="#Mixin-条件" class="headerlink" title="Mixin 条件"></a>Mixin 条件</h4><p>虽然 Less 没有提供 @if @else 等流程控制符，但是提供了 <code>when</code> 关键字， 配合 mixin 重载，灵活使用可以实现类似流程控制的效果。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span> (<span class="variable">@p</span>) <span class="keyword">when</span> (<span class="variable">@p</span> &lt; <span class="number">10</span>) &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="string">~&#x27;@&#123;p&#125;px&#x27;</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果是or，则用 逗号分割即可</span></span><br><span class="line"><span class="selector-class">.a</span> (<span class="variable">@p</span>) <span class="keyword">when</span> (<span class="variable">@p</span> &gt; <span class="number">10</span>) <span class="keyword">and</span> (<span class="variable">@p</span> &lt; <span class="number">15</span>) &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="string">~&#x27;@&#123;p&#125;px&#x27;</span> solid blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> (<span class="variable">@p</span>) <span class="keyword">when</span> <span class="keyword">not</span> (<span class="variable">@p</span> &lt; <span class="number">15</span>) &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="string">~&#x27;@&#123;p&#125;px&#x27;</span> solid green;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> (<span class="variable">@p</span>) <span class="keyword">when</span> (<span class="built_in">default</span>()) &#123;</span><br><span class="line">  <span class="comment">// 这里是类似 else 的语法</span></span><br><span class="line">  <span class="comment">// 当然在这一串控制中不会生效， 因为上面三个已经可以涵盖所有情况</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>(<span class="number">9</span>);</span><br><span class="line">  <span class="selector-class">.a</span>(<span class="number">11</span>);</span><br><span class="line">  <span class="selector-class">.a</span>(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">9px</span> solid <span class="number">#ff0000</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">11px</span> solid <span class="number">#0000ff</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">20px</span> solid <span class="number">#008000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Mixin-合并-v1-7-0-支持"><a href="#Mixin-合并-v1-7-0-支持" class="headerlink" title="Mixin 合并(v1.7.0 支持)"></a>Mixin 合并(v1.7.0 支持)</h4><p>Less 支持 Mixin 的合并选项</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="selector-tag">box-shadow</span>+: <span class="selector-tag">inset</span> <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="selector-tag">red</span>;</span><br><span class="line">  <span class="selector-tag">border</span>+<span class="selector-tag">_</span>: <span class="number">1px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-class">.a</span>();</span><br><span class="line">  <span class="selector-tag">box-shadow</span>+: <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="selector-tag">green</span>;</span><br><span class="line">  <span class="selector-tag">border</span>+<span class="selector-tag">_</span>: <span class="selector-tag">solid</span> <span class="selector-tag">red</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">  <span class="selector-tag">box-shadow</span>+: <span class="selector-tag">inset</span> <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="selector-tag">red</span>, <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="selector-tag">green</span>;</span><br><span class="line">  <span class="selector-tag">border</span>: <span class="number">1px</span> <span class="selector-tag">solid</span> <span class="selector-tag">red</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>为避免任何非有意的添加，<code>merge</code>需要在每个待加入的声明中显示的设置一个<code>+</code>或者<code>+_</code>标记。</em> (引自官方文档：<a href="https://www.html.cn/doc/less/features/#merge-feature-comma-">https://www.html.cn/doc/less/features/#merge-feature-comma-</a>)</p>
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><h4 id="递归循环"><a href="#递归循环" class="headerlink" title="递归循环"></a>递归循环</h4><p>Less 可以通过 when 和 递归 mixin 来实现 Sass 中 @while 循环的效果</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span> (<span class="variable">@i</span>: <span class="number">1</span>) <span class="keyword">when</span> (<span class="variable">@i</span> &lt; <span class="number">11</span>)&#123;</span><br><span class="line">  <span class="selector-class">.mr-</span><span class="variable">@&#123;i&#125;</span> &#123;</span><br><span class="line">    <span class="attribute">margin-right</span>: <span class="string">~&#x27;@&#123;i&#125;px&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.a</span> (<span class="variable">@i</span> + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.mr-1</span> &#123;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">1px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.mr-2</span> &#123;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"><span class="selector-class">.mr-10</span> &#123;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="列表循环"><a href="#列表循环" class="headerlink" title="列表循环"></a>列表循环</h4><p>Less 中通过变量可以定义一个列表，如：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@strings:</span> left, right, top, bottom;</span><br></pre></td></tr></table></figure>
+
+<p>此时可以通过 <code>each</code> 函数来循环这个列表（each 方法文档中没有，我也忘记咋知道这个方法的了~ - -~）</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">each</span>(<span class="variable">@strings</span>, .(<span class="variable">@type</span>) &#123;</span><br><span class="line">  <span class="selector-class">.@&#123;type&#125;</span> &#123;</span><br><span class="line">    <span class="selector-tag">margin-</span><span class="variable">@&#123;type&#125;</span>: <span class="number">10px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.left</span> &#123;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">.right &#123;</span><br><span class="line">  <span class="attribute">margin-right</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">.top &#123;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">.bottom &#123;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>嚯！到这里终于来点有用的场景了，这个写法很 JavaScript 。</p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>上面讲过我们用 Mixin 去模拟自定义函数，Less 自身也提供了很多常见的操作函数。</p>
+<h4 id="颜色函数"><a href="#颜色函数" class="headerlink" title="颜色函数"></a>颜色函数</h4><p>通过这些函数可以进行色彩计算、转换。</p>
+<ul>
+<li><p>hsl()  &#x2F; hsla()</p>
+<blockquote>
+<p>通过色相 (hue)，饱和度 (saturation)，亮度 (lightness)，alpha  四种值 (HSLA) 创建不透明的颜色对象。</p>
+</blockquote>
+</li>
+<li><p>Hsv() &#x2F; hsva()</p>
+<blockquote>
+<p>通过色相 (hue)，饱和度 (saturation)，色调 (value)，以及 alpha 四种值 (HSVA) 创建透明的颜色对象。</p>
+</blockquote>
+</li>
+<li><p>hue</p>
+</li>
+<li><p>saturation</p>
+</li>
+<li><p>lightness</p>
+</li>
+<li><p>red</p>
+</li>
+<li><p>green</p>
+</li>
+<li><p>blue</p>
+</li>
+<li><p>alpha</p>
+</li>
+<li><p>lighten</p>
+</li>
+<li><p>darken</p>
+</li>
+<li><p>fadein</p>
+</li>
+<li><p>fadeout</p>
+</li>
+<li><p>mix</p>
+<blockquote>
+<p>混色，将两个颜色混成一个。</p>
+</blockquote>
+</li>
+</ul>
+<p>等等</p>
+<h4 id="类型函数"><a href="#类型函数" class="headerlink" title="类型函数"></a>类型函数</h4><p>在混入的时候，可以通过类型函数来判断输出结果</p>
+<ul>
+<li>isnumber</li>
+<li>isstring</li>
+<li>iscolor</li>
+<li>isurl</li>
+<li>Isunit 是否为单位(px&#x2F;em&#x2F;rem)</li>
+<li>ispercentage</li>
+<li>ispixel</li>
+<li>isem</li>
+</ul>
+<p>等等</p>
+<h4 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h4><p>写动画效果、图形计算的时候非常有用，不列举了。常见的JavaScript Math 对象方法都在里面。</p>
+<h4 id="工具函数"><a href="#工具函数" class="headerlink" title="工具函数"></a>工具函数</h4><p>某些场景贼好用</p>
+<ul>
+<li><p>data-uri</p>
+<blockquote>
+<p>将一个资源转为 base64 格式</p>
+<p>data-uri(‘..&#x2F;data&#x2F;image.jpg’);</p>
+<p>输出：url(‘data:image&#x2F;jpeg;base64,bm90IGFjdHVhbGx5IGEganBlZyBmaWxlCg&#x3D;&#x3D;’);</p>
+</blockquote>
+</li>
+<li><p>util</p>
+<blockquote>
+<p>添加或移除一个单位，在配合变量使用的时候效果极佳</p>
+<p>Util(5, px)</p>
+<p>输出 5px</p>
+</blockquote>
+</li>
+</ul>
+<p>等等</p>
+<h3 id="JavaScript-in-Less"><a href="#JavaScript-in-Less" class="headerlink" title="JavaScript in Less"></a>JavaScript in Less</h3><p>Less 支持一个很神奇的特性，可能跟底层是 JavaScript 实现有关。</p>
+<p>它支持我们在 Less 中编写 JavaScript，仅限 ES5，不过即便如此， 还是可以通过这个特性来大大扩展 Less 的灵活性。</p>
+<p>从这刻起，Less 就是一门完整的编程语言了。</p>
+<blockquote>
+<p>ant design 中就是使用这种方法来计算 Button 色阶</p>
+</blockquote>
+<h4 id="开启编译支持"><a href="#开启编译支持" class="headerlink" title="开启编译支持"></a>开启编译支持</h4><p>javascript in less 需要 less loader 额外开启，默认是关闭的~</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack</span></span><br><span class="line"><span class="comment">// 这里是通过 vue 的 config 覆写语法来做的，道理都一样，目的就是开启 lessLoader 中 lessOptions 里的 JavaScriptEnabled</span></span><br><span class="line"></span><br><span class="line">config.<span class="property">module</span>.<span class="title function_">rule</span>(<span class="string">&#x27;less&#x27;</span>).<span class="title function_">oneOf</span>(<span class="variable language_">module</span>).<span class="title function_">use</span>(<span class="string">&#x27;less-loader&#x27;</span>).<span class="title function_">loader</span>(<span class="string">&#x27;less-loader&#x27;</span>)</span><br><span class="line">  .<span class="title function_">tap</span>(<span class="function"><span class="params">options</span> =&gt;</span> &#123;</span><br><span class="line">  options.<span class="property">lessOptions</span> = &#123;</span><br><span class="line">    javascriptEnabled : <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> options</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="JavaScript-编写"><a href="#JavaScript-编写" class="headerlink" title="JavaScript 编写"></a>JavaScript 编写</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.funtionFactory</span> &#123;</span><br><span class="line">  <span class="comment">// 因为不支持 es6，所以只能写 function</span></span><br><span class="line">  <span class="variable">@functions:</span> ~`(function () &#123;</span><br><span class="line">    var <span class="attribute">color</span> = <span class="string">&#x27;red&#x27;</span></span><br><span class="line">    </span><br><span class="line">		<span class="comment">// 将供less 使用的函数挂在原型链上，我猜less loader 内部会 new 外层这个匿名函数~</span></span><br><span class="line">    this.getColor = function () &#123;</span><br><span class="line">    	return <span class="attribute">color</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Less-中调用-JavaScript-方法"><a href="#Less-中调用-JavaScript-方法" class="headerlink" title="Less 中调用 JavaScript 方法"></a>Less 中调用 JavaScript 方法</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先调用工厂函数，生成作用域内的方法</span></span><br><span class="line"><span class="selector-class">.funtionFactory</span>();</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="built_in">~`getColor()`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译结果</span></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p>less 中调用 JavaScript 方法的时候，是可以传递参数的。</p>
+<p>所以我们平常也可以把 Less 中一些复杂的计算转移到 JavaScript 中去。</p>
+<h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p>在日常开发中，搭建底层样式库的时候，为了方便 UI 绘制，我决定要创建一些辅助间距class，类似 Material UI 中的 <code>pl</code>、<code>ml</code>。</p>
+<p>但是 Material 显然是通过 React 来计算的，那我们使用 Less 要怎么做呢？</p>
+<p>结合一下上面的各种用法，很轻松就得出了答案：变量、循环、JavaScript。</p>
+<p>来看一下如何实现~</p>
+<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义使用到的边距</span></span><br><span class="line"><span class="comment">// 如 pb10: padding-bottom: 10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义变量转换函数</span></span><br><span class="line"><span class="selector-class">.functionFactory</span>() &#123;</span><br><span class="line">  <span class="variable">@functions:</span> <span class="built_in">~`(function () &#123;</span></span><br><span class="line"><span class="built_in"></span></span><br><span class="line"><span class="built_in">    var map = &#123;</span></span><br><span class="line"><span class="built_in">      m: &#x27;margin&#x27;,</span></span><br><span class="line"><span class="built_in">      p: &#x27;padding&#x27;,</span></span><br><span class="line"><span class="built_in">      t: &#x27;-top&#x27;,</span></span><br><span class="line"><span class="built_in">      r: &#x27;-right&#x27;,</span></span><br><span class="line"><span class="built_in">      b: &#x27;-bottom&#x27;,</span></span><br><span class="line"><span class="built_in">      l: &#x27;-left&#x27;,</span></span><br><span class="line"><span class="built_in">    &#125;</span></span><br><span class="line"><span class="built_in"></span></span><br><span class="line"><span class="built_in">    this.getFullAttr = function (str) &#123;</span></span><br><span class="line"><span class="built_in">      if (str.length === 1) &#123;</span></span><br><span class="line"><span class="built_in">        return map[str]</span></span><br><span class="line"><span class="built_in">      &#125;</span></span><br><span class="line"><span class="built_in"></span></span><br><span class="line"><span class="built_in">      var newStr = str.replace(/([a-z])([a-z])/g, function ($0, $1, $2) &#123;</span></span><br><span class="line"><span class="built_in">        return map[$1] + map[$2]</span></span><br><span class="line"><span class="built_in">      &#125;)</span></span><br><span class="line"><span class="built_in">      return newStr</span></span><br><span class="line"><span class="built_in">    &#125;</span></span><br><span class="line"><span class="built_in">  &#125;)()`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.functionFactory</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义循环构造体</span></span><br><span class="line"><span class="selector-class">.eachFactory</span>(<span class="variable">@list</span>) &#123;</span><br><span class="line">  <span class="selector-tag">each</span>(<span class="variable">@list</span>, .(<span class="variable">@value</span>) &#123;</span><br><span class="line">    <span class="selector-tag">each</span>(<span class="variable">@types</span>, .(<span class="variable">@type</span>) &#123;</span><br><span class="line">      <span class="variable">@fullType:</span> <span class="built_in">~`getFullAttr(&quot;@&#123;type&#125;&quot;)`</span>;</span><br><span class="line"></span><br><span class="line">      <span class="selector-class">.@&#123;type&#125;</span><span class="variable">@&#123;value&#125;</span> &#123;</span><br><span class="line">          @&#123;fullType&#125;: ~&quot;<span class="variable">@&#123;value&#125;</span><span class="selector-tag">px</span> !important&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义的边距类型</span></span><br><span class="line">@<span class="selector-tag">types</span>: <span class="selector-tag">pt</span>, <span class="selector-tag">pr</span>, <span class="selector-tag">pb</span>, <span class="selector-tag">pl</span>, <span class="selector-tag">mt</span>, <span class="selector-tag">mr</span>, <span class="selector-tag">mb</span>, <span class="selector-tag">ml</span>, <span class="selector-tag">p</span>, <span class="selector-tag">m</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 10 以下者皆定义,</span></span><br><span class="line">@<span class="selector-tag">baseGapList</span>: <span class="selector-tag">range</span>(<span class="number">0</span>, <span class="number">10</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 除此之外，余则加之</span></span><br><span class="line">@<span class="selector-tag">expandGapList</span>: <span class="number">12</span>, <span class="number">16</span>, <span class="number">20</span>, <span class="number">24</span>, <span class="number">30</span>, <span class="number">32</span>, <span class="number">38</span>, <span class="number">40</span>, <span class="number">46</span>, <span class="number">50</span>, <span class="number">80</span>, <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.eachFactory</span>(<span class="variable">@baseGapList</span>);</span><br><span class="line"><span class="selector-class">.eachFactory</span>(<span class="variable">@expandGapList</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这段代码编译后，就会生成四个边的边距 style，如直接在项目中使用 pl8、pr16、mb24 即可。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhukejin.com/2022/advanced-less/" title="Less 的一些高级用法" target="_blank" rel="external">https://zhukejin.com/2022/advanced-less/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2022/typescript-decorator/" title="Typescript 装饰器"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2022/kodi-webdav-alipan/" title="如何利用 KODI 播放阿里云盘的电影"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/alipay.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/avatar/wechat.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhukejin" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/zhukejin1223" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://tools.zhukejin.com/" target="_blank" title="Tools" data-toggle=tooltip data-placement=top><i class="icon icon-tools"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+<!--         <div class="publishby"> -->
+<!--         	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>. -->
+<!--         </div> -->
+    </div>
+</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.0/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+
+   
+    
+<!--   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.18/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: true,
+    appId: 'mCn1YzBrnhl7YkA4cMqwQtdv-gzGzoHsz',
+    appKey: 'aqeLjChv5TIn6aiFwotIOT3q',
+    placeholder: '请留下您宝贵的建议',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>
